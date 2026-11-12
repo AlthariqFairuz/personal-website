@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.netlify/
+.env
+.env.*
+.DS_Store
+.vscode/
+*.log
+
+# Source CV (a copy is served from public/)
+/CV *.pdf

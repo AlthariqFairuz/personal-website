@@ -1,0 +1,22 @@
+---
+import TimelineCard from '../TimelineCard.astro';
+import { achievements } from '../../data/cv';
+import { stagger } from '../../lib/stagger';
+
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+const items = achievements.slice(0, limit);
+---
+
+<ol class="timeline">
+  {
+    items.map((a, i) => (
+      <TimelineCard eyebrow={a.event} title={a.title} date={a.date} delay={stagger(i)}>
+        <p>{a.description}</p>
+      </TimelineCard>
+    ))
+  }
+</ol>

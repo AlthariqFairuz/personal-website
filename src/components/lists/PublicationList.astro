@@ -1,0 +1,78 @@
+---
+import TimelineCard from '../TimelineCard.astro';
+import { publications } from '../../data/cv';
+import { stagger } from '../../lib/stagger';
+
+interface Props {
+  /** Short version for the home page: description only, no bullets or metrics */
+  compact?: boolean;
+  limit?: number;
+}
+
+const { compact = false, limit } = Astro.props;
+const items = publications.slice(0, limit);
+---
+
+<ol class="timeline">
+  {
+    items.map((p, i) => (
+      <TimelineCard eyebrow={p.kind} title={p.title} date={p.date} delay={stagger(i)}>
+        <div class="byline">
+          <p>{p.authors}</p>
+          <p>{p.venue}</p>
+        </div>
+        <p>{p.description}</p>
+        {!compact && (
+          <>
+            <ul class="bullets">
+              {p.points.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+            <dl class="metrics">
+              {p.metrics.map((m) => (
+                <div>
+                  <dt>{m.value}</dt>
+                  <dd>{m.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </>
+        )}
+      </TimelineCard>
+    ))
+  }
+</ol>
+
+<style>
+  .byline {
+    display: grid;
+    gap: 0.15rem;
+    margin-top: -0.35rem;
+    line-height: var(--lh-tight);
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .metrics dt {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .metrics dd {
+    margin-top: 0.25rem;
+    font-size: var(--fs-xs);
+    line-height: var(--lh-tight);
+  }
+  @media (max-width: 640px) {
+    .metrics {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

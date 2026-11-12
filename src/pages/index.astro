@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import ContactSection from '../components/ContactSection.astro';
+import PublicationList from '../components/lists/PublicationList.astro';
+import ExperienceList from '../components/lists/ExperienceList.astro';
+import AwardList from '../components/lists/AwardList.astro';
+---
+
+<Layout>
+  <Hero />
+
+  <Section
+    eyebrow="Publications"
+    title="Research & Publications"
+    subtitle="Peer-reviewed research and registered intellectual property"
+    more={{ href: '/publications', label: 'View full details' }}
+  >
+    <PublicationList compact />
+  </Section>
+
+  <Section
+    eyebrow="Experience"
+    title="Recent Experience"
+    subtitle="Where I've applied machine learning in industry and research"
+    more={{ href: '/experience', label: 'View all experience' }}
+  >
+    <ExperienceList compact limit={3} />
+  </Section>
+
+  <Section
+    eyebrow="Awards"
+    title="Recent Awards"
+    subtitle="Recognition from national and international competitions"
+    more={{ href: '/awards', label: 'View all awards' }}
+  >
+    <AwardList limit={2} />
+  </Section>
+
+  <ContactSection />
+</Layout>

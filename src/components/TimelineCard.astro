@@ -1,0 +1,117 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  date: string;
+  sub?: string;
+  delay?: number;
+}
+
+const { eyebrow, title, date, sub, delay = 0 } = Astro.props;
+---
+
+<li class="item reveal" style={`--d: ${delay}s`}>
+  <span class="node" aria-hidden="true"></span>
+  <article class="card">
+    <div class="head">
+      <div class="titles">
+        <span class="eyebrow">{eyebrow}</span>
+        <h3>{title}</h3>
+      </div>
+      <span class="date">{date}</span>
+    </div>
+    {sub && <p class="sub">{sub}</p>}
+    <div class="body">
+      <slot />
+    </div>
+  </article>
+</li>
+
+<style>
+  .item {
+    position: relative;
+    padding-left: 2.25rem;
+  }
+  .node {
+    position: absolute;
+    top: 1.6rem;
+    left: 0;
+    z-index: 1;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .card {
+    position: relative;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+    box-shadow: 0 10px 40px -12px var(--glow);
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+  h3 {
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.015em;
+    transition: color 0.2s ease;
+  }
+  .card:hover h3 {
+    color: var(--primary);
+  }
+  .date {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    line-height: var(--lh-tight);
+    color: var(--muted);
+  }
+  .sub {
+    margin-top: 0.35rem;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-tight);
+    color: var(--muted);
+  }
+  .body {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 0.85rem;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    color: var(--muted);
+  }
+  .body:empty {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .item {
+      padding-left: 1.75rem;
+    }
+    .card {
+      padding: 1.1rem 1.15rem;
+    }
+    .head {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>

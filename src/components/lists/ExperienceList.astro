@@ -1,0 +1,31 @@
+---
+import TimelineCard from '../TimelineCard.astro';
+import { experiences } from '../../data/cv';
+import { stagger } from '../../lib/stagger';
+
+interface Props {
+  /** Short version for the home page: summary only, no highlights */
+  compact?: boolean;
+  limit?: number;
+}
+
+const { compact = false, limit } = Astro.props;
+const items = experiences.slice(0, limit);
+---
+
+<ol class="timeline">
+  {
+    items.map((e, i) => (
+      <TimelineCard eyebrow={e.company} title={e.role} date={e.period} delay={stagger(i)}>
+        <p>{e.summary}</p>
+        {!compact && e.highlights && (
+          <ul class="bullets">
+            {e.highlights.map((h) => (
+              <li>{h}</li>
+            ))}
+          </ul>
+        )}
+      </TimelineCard>
+    ))
+  }
+</ol>

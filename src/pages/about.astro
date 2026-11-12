@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import TimelineCard from '../components/TimelineCard.astro';
+import SkillGroups from '../components/lists/SkillGroups.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { profile, education } from '../data/cv';
+---
+
+<Layout
+  title="About"
+  description="Background, education, and tools of Muhammad Al Thariq Fairuz, a Machine Learning Engineer and ITB graduate."
+>
+  <Section page eyebrow="About" title="About Me" subtitle={profile.tagline}>
+    <div class="prose reveal">
+      {profile.summary.map((p) => <p>{p}</p>)}
+    </div>
+  </Section>
+
+  <Section id="education" eyebrow="Education" title="Education" subtitle="My academic background">
+    <ol class="timeline">
+      <TimelineCard
+        eyebrow={education.school}
+        title={education.degree}
+        date={education.period}
+        sub={education.detail}
+      >
+        <p><span class="label">Thesis:</span> {education.thesis}</p>
+      </TimelineCard>
+    </ol>
+  </Section>
+
+  <Section
+    id="skills"
+    eyebrow="Tools & Technologies"
+    title="Tools & Technologies"
+    subtitle="Frameworks, libraries, and tools I've used across my work and research"
+  >
+    <SkillGroups />
+  </Section>
+
+  <ContactSection />
+</Layout>
+
+<style>
+  .prose {
+    display: grid;
+    gap: 1rem;
+    font-size: var(--fs-lg);
+    line-height: var(--lh-body);
+    color: var(--muted);
+  }
+  .prose p:first-child {
+    color: var(--text);
+  }
+  .label {
+    font-weight: 600;
+    color: var(--text);
+  }
+</style>

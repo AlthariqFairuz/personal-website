@@ -1,0 +1,111 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  id?: string;
+  /** Top section of a sub-page: renders an <h1>, no divider, extra room for the nav */
+  page?: boolean;
+  /** Optional "View all" style link shown under the content */
+  more?: { href: string; label: string };
+}
+
+const { id, eyebrow, title, subtitle, page = false, more } = Astro.props;
+const Heading = page ? 'h1' : 'h2';
+---
+
+{!page && <div class="divider" aria-hidden="true" />}
+<section id={id} class:list={['section', { page }]}>
+  <div class="inner">
+    <header class="head">
+      <span class="eyebrow reveal">{eyebrow}</span>
+      <Heading class="title reveal" style="--d: 0.06s">{title}</Heading>
+      <p class="reveal" style="--d: 0.12s">{subtitle}</p>
+    </header>
+    <slot />
+    {
+      more && (
+        <div class="more reveal">
+          <a href={more.href}>
+            {more.label} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .divider {
+    width: calc(100% - 2.5rem);
+    max-width: 56rem;
+    height: 1px;
+    margin: 0 auto;
+    background: var(--border);
+  }
+  .section {
+    padding: 5rem 1.25rem;
+  }
+  .section.page {
+    padding-top: 9rem;
+  }
+  .inner {
+    width: 100%;
+    max-width: var(--content-w);
+    margin: 0 auto;
+  }
+  .head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  .title {
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+  .page .title {
+    font-size: clamp(var(--fs-xl), 5vw, 2.5rem);
+  }
+  p {
+    font-size: var(--fs-lg);
+    line-height: var(--lh-tight);
+    color: var(--muted);
+  }
+  .more {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .more a {
+    display: inline-flex;
+    gap: 0.4rem;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: var(--muted);
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .more a:hover {
+    color: var(--primary);
+    border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+    transform: translateY(-2px);
+  }
+  @media (max-width: 640px) {
+    .section {
+      padding: 3.5rem 1.25rem;
+    }
+    .section.page {
+      padding-top: 7rem;
+    }
+    .head {
+      margin-bottom: 2rem;
+    }
+  }
+</style>

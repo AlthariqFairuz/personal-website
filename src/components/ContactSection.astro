@@ -1,0 +1,26 @@
+---
+import Section from './Section.astro';
+import Icon from './Icon.astro';
+import { profile } from '../data/cv';
+---
+
+<Section
+  id="contact"
+  eyebrow="Contact"
+  title="Let's work together"
+  subtitle="Open to research and industry roles where machine learning solves meaningful, data-driven problems"
+>
+  <div class="contact reveal">
+    <a class="btn primary" href={`mailto:${profile.email}`}>
+      <Icon name="mail" />
+      {profile.email}
+    </a>
+  </div>
+</Section>
+
+<style>
+  .contact {
+    display: flex;
+    justify-content: center;
+  }
+</style>
